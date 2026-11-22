@@ -1,0 +1,20 @@
+{
+  "name": "framelab-eyewear",
+  "version": "1.0.0",
+  "description": "FrameLab Luxury Eyewear E-Commerce with Razorpay Online Payment Integration",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node --watch server.js"
+  },
+  "keywords": [
+    "eyewear",
+    "razorpay",
+    "ecommerce",
+    "payments",
+    "india"
+  ],
+  "author": "FrameLab Technologies",
+  "license": "ISC"
+}

@@ -1,0 +1,1446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FrameLab &bull; Haute Eyewear & Biometric Frame Selector</title>
+  <meta name="description" content="Experience precision-crafted luxury eyewear. Use our smart multi-step frame selector and interactive virtual studio to discover frames harmonized to your facial geometry.">
+  
+  <!-- Preconnect Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400&family=Fira+Code:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Razorpay Official Checkout Gateway SDK -->
+  <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+  <!-- Main Stylesheet -->
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+  <!-- Ambient Luxury Background Canvas & Precision Optical Blueprint Grid -->
+  <div class="framelab-ambient-bg" aria-hidden="true">
+    <div class="ambient-orb orb-copper"></div>
+    <div class="ambient-orb orb-navy"></div>
+    <div class="ambient-orb orb-gold"></div>
+    <div class="optical-blueprint-grid"></div>
+    <div class="optical-lens-rings"></div>
+    <div id="cursorAmbientGlow" class="cursor-ambient-glow"></div>
+  </div>
+
+  <!-- Top Announcement Bar -->
+  <div class="announcement-bar" role="region" aria-label="Announcement">
+    <div class="container announcement-inner">
+      <span class="announcement-pill">NEW 2026 EDITION</span>
+      <p class="announcement-text">
+        COMPLIMENTARY BLUE-LIGHT SCREEN COATING ON ALL PRESCRIPTIONS &bull; FREE ALL-INDIA INSURED DELIVERY &bull; 14-DAY IN-HOME TRIAL
+      </p>
+      <span class="currency-tag">INDIA &bull; ₹ INR</span>
+    </div>
+  </div>
+
+  <!-- Primary Luxury Navigation Bar -->
+  <header class="framelab-navbar">
+    <div class="container navbar-inner">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="brand-logo" aria-label="FrameLab Homepage">
+        <span class="logo-mark">
+          <svg viewBox="0 0 36 36" fill="none" class="logo-svg" aria-hidden="true">
+            <circle cx="12" cy="18" r="8" stroke="currentColor" stroke-width="2.5" />
+            <circle cx="24" cy="18" r="8" stroke="currentColor" stroke-width="2.5" />
+            <path d="M12 10C12 10 15 8 18 8C21 8 24 10 24 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+            <path d="M20 18H16" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+          </svg>
+        </span>
+        <div class="brand-titles">
+          <span class="brand-name">FrameLab</span>
+          <span class="brand-tagline">HAUTE EYEWEAR</span>
+        </div>
+      </a>
+
+      <!-- Desktop Navigation Menu -->
+      <nav class="desktop-nav" aria-label="Main Navigation">
+        <ul class="nav-links">
+          <li><a href="#selectorSection" class="nav-link">Smart Selector</a></li>
+          <li><a href="#virtualStudioSection" class="nav-link">Virtual Studio</a></li>
+          <li><a href="#catalogSection" class="nav-link">The Collection</a></li>
+          <li><a href="#collectionsSection" class="nav-link">Curated Edits</a></li>
+          <li><a href="#aboutSection" class="nav-link">Craftsmanship</a></li>
+          <li><a href="#faqSection" class="nav-link">Fitting Guide</a></li>
+        </ul>
+      </nav>
+
+      <!-- Nav Utility Actions -->
+      <div class="nav-actions">
+        <!-- Search Trigger Button -->
+        <a href="#catalogSection" class="nav-action-btn" title="Search Collection" aria-label="Search Collection">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="action-icon">
+            <circle cx="11" cy="11" r="8" />
+            <line x1="21" y1="21" x2="16.65" y2="16.65" />
+          </svg>
+        </a>
+
+        <!-- Saved Favorites Trigger -->
+        <button id="navFavoritesBtn" class="nav-action-btn" title="Saved Favorites" aria-label="Saved Favorites">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="action-icon">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+          <span id="navFavoritesCount" class="badge-count" style="display: none;">0</span>
+        </button>
+
+        <!-- Shopping Bag Trigger -->
+        <button id="navCartBtn" class="nav-action-btn" title="Shopping Bag" aria-label="Shopping Bag">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="action-icon">
+            <path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          </svg>
+          <span id="navCartCount" class="badge-count" style="display: none;">0</span>
+        </button>
+
+        <!-- Primary CTA Button -->
+        <a href="#selectorSection" class="btn btn-primary btn-sm btn-nav-cta">
+          Find My Frame
+        </a>
+
+        <!-- Mobile Menu Toggle -->
+        <button id="mobileMenuToggle" class="mobile-menu-btn" aria-label="Toggle Mobile Navigation">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+
+    </div>
+
+    <!-- Mobile Nav Flyout -->
+    <div id="mobileNavMenu" class="mobile-nav-flyout hidden">
+      <ul class="mobile-nav-links">
+        <li><a href="#selectorSection" class="mobile-nav-link">Smart Frame Selector</a></li>
+        <li><a href="#virtualStudioSection" class="mobile-nav-link">Interactive Virtual Studio</a></li>
+        <li><a href="#catalogSection" class="mobile-nav-link">Browse Full Collection</a></li>
+        <li><a href="#collectionsSection" class="mobile-nav-link">Curated Edits</a></li>
+        <li><a href="#aboutSection" class="mobile-nav-link">Our Heritage & Materials</a></li>
+        <li><a href="#faqSection" class="mobile-nav-link">Prescription & Fit Guide</a></li>
+      </ul>
+      <div class="mobile-nav-cta">
+        <a href="#selectorSection" class="btn btn-primary w-full">Start Face Shape Quiz</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Landmark -->
+  <main id="main-content">
+
+    <!-- ==================== HERO SECTION ==================== -->
+    <section class="hero-section">
+      <div class="container hero-grid">
+        
+        <!-- Hero Text Column -->
+        <div class="hero-copy-col">
+          <div class="hero-eyebrow">
+            <span class="eyebrow-dot"></span>
+            <span>PRECISION OPTICS & ANTHROPOMETRIC FIT</span>
+          </div>
+
+          <h1 class="hero-title">
+            See the World in <span class="highlight-serif">Your Style</span>.
+          </h1>
+
+          <p class="hero-description">
+            Experience eyewear designed from the ground up. We harmonize <strong>Japanese beta-titanium</strong> and <strong>Italian Mazzucchelli bio-acetate</strong> with your exact facial proportions for weightless, flattering elegance.
+          </p>
+
+          <div class="hero-cta-group">
+            <a href="#selectorSection" class="btn btn-primary btn-lg">
+              <span>Launch Frame Selector</span>
+              <svg class="btn-arrow" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </a>
+            <a href="#virtualStudioSection" class="btn btn-secondary btn-lg">
+              <span>Try Virtual Studio</span>
+            </a>
+          </div>
+
+          <!-- Trust Badges & Metrics -->
+          <div class="hero-trust-row">
+            <div class="trust-stat">
+              <span class="stat-number">4.2g</span>
+              <span class="stat-label">Ultralight Titanium</span>
+            </div>
+            <div class="trust-divider"></div>
+            <div class="trust-stat">
+              <span class="stat-number">10,000+</span>
+              <span class="stat-label">Precision Fits</span>
+            </div>
+            <div class="trust-divider"></div>
+            <div class="trust-stat">
+              <span class="stat-number">4.9 ★</span>
+              <span class="stat-label">Patron Satisfaction</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Hero Showcase Column -->
+        <div class="hero-visual-col">
+          <div class="hero-card-stack">
+            <!-- Glassmorphic Hero Display Card -->
+            <div class="hero-eyewear-card">
+              <div class="card-glass-header">
+                <span class="pill-tag">FLAGSHIP MODEL</span>
+                <span class="pill-origin">TOKYO &bull; MILAN</span>
+              </div>
+
+              <div class="hero-product-image-wrap">
+                <img src="assets/images/hero-kyoto-titanium.jpg" 
+                     onerror="this.onerror=null; this.src='assets/images/fallback-eyewear.svg';"
+                     alt="The Kyoto Pure Titanium in Brushed Finish" 
+                     class="hero-product-img" />
+              </div>
+
+              <div class="hero-card-footer">
+                <div class="hero-card-info">
+                  <h3 class="hero-card-title">The Kyoto Pure Titanium</h3>
+                  <p class="hero-card-subtitle">Japanese Beta-Titanium Architecture &bull; 4.2g</p>
+                </div>
+                <div class="hero-card-price">
+                  <span class="price-val">₹6,499</span>
+                  <span class="mrp-val">₹8,999</span>
+                </div>
+              </div>
+
+              <div class="hero-card-floating-badge top-right">
+                <span class="pulse-dot"></span>
+                <span>Anti-Glare AR Optics</span>
+              </div>
+
+              <div class="hero-card-floating-badge bottom-left">
+                <span>Hand-Beveled Edges</span>
+              </div>
+            </div>
+
+            <!-- Decorative Ambient Glow -->
+            <div class="hero-ambient-glow" aria-hidden="true"></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== SMART MULTI-STEP FRAME SELECTOR ==================== -->
+    <section id="selectorSection" class="selector-section">
+      <div class="container">
+        
+        <!-- Section Header -->
+        <div class="section-intro text-center">
+          <span class="section-badge">BIOMETRIC HARMONIZATION</span>
+          <h2 class="section-title">Smart Frame Selector</h2>
+          <p class="section-subtitle">
+            Answer 4 quick lifestyle & facial questions. Our optical algorithm pairs your unique facial geometry with the most flattering frame silhouettes, premium materials, and budget.
+          </p>
+        </div>
+
+        <!-- Multi-Step Wizard Card -->
+        <div class="selector-wizard-container">
+          
+          <!-- Stepper Navigation Bar -->
+          <div class="wizard-stepper-header">
+            <span id="selectorStepIndicator" class="step-counter">Step 1 of 4</span>
+            <div class="progress-track">
+              <div id="selectorProgressBar" class="progress-fill" style="width: 25%;"></div>
+            </div>
+            <button id="btnSelectorReset" class="btn-text-action" title="Reset Selections">Reset Quiz</button>
+          </div>
+
+          <!-- Wizard Body: 4 Sequential Steps -->
+          <div class="wizard-steps-body">
+
+            <!-- STEP 1: Face Shape -->
+            <div class="selector-step-card active" data-step="1">
+              <div class="step-header">
+                <h3 class="step-title">What is your natural face shape?</h3>
+                <p class="step-subtitle">Identify the general contour of your jawline, cheekbones, and forehead.</p>
+              </div>
+
+              <div class="selector-options-grid options-5-col">
+                
+                <button type="button" class="selector-option-btn" data-step="1" data-category="faceShape" data-value="oval" role="radio" aria-checked="false">
+                  <div class="option-icon-wrap">
+                    <svg viewBox="0 0 60 70" class="shape-svg" aria-hidden="true">
+                      <ellipse cx="30" cy="35" rx="18" ry="26" fill="none" stroke="currentColor" stroke-width="2.5" />
+                    </svg>
+                  </div>
+                  <h4 class="option-name">Oval</h4>
+                  <p class="option-desc">Harmonious golden ratio. Balanced cheekbones and softly rounded chin.</p>
+                </button>
+
+                <button type="button" class="selector-option-btn" data-step="1" data-category="faceShape" data-value="round" role="radio" aria-checked="false">
+                  <div class="option-icon-wrap">
+                    <svg viewBox="0 0 60 70" class="shape-svg" aria-hidden="true">
+                      <circle cx="30" cy="35" r="23" fill="none" stroke="currentColor" stroke-width="2.5" />
+                    </svg>
+                  </div>
+                  <h4 class="option-name">Round</h4>
+                  <p class="option-desc">Similar width & height. Soft curves, fuller cheeks, rounded jawline.</p>
+                </button>
+
+                <button type="button" class="selector-option-btn" data-step="1" data-category="faceShape" data-value="square" role="radio" aria-checked="false">
+                  <div class="option-icon-wrap">
+                    <svg viewBox="0 0 60 70" class="shape-svg" aria-hidden="true">
+                      <rect x="9" y="14" width="42" height="42" rx="4" fill="none" stroke="currentColor" stroke-width="2.5" />
+                    </svg>
+                  </div>
+                  <h4 class="option-name">Square</h4>
+                  <p class="option-desc">Defined angles. Strong, horizontal jawline and broad forehead.</p>
+                </button>
+
+                <button type="button" class="selector-option-btn" data-step="1" data-category="faceShape" data-value="heart" role="radio" aria-checked="false">
+                  <div class="option-icon-wrap">
+                    <svg viewBox="0 0 60 70" class="shape-svg" aria-hidden="true">
+                      <polygon points="10,18 50,18 42,46 30,62 18,46" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" />
+                    </svg>
+                  </div>
+                  <h4 class="option-name">Heart</h4>
+                  <p class="option-desc">Wider forehead and cheekbones tapering smoothly to a slender chin.</p>
+                </button>
+
+                <button type="button" class="selector-option-btn" data-step="1" data-category="faceShape" data-value="diamond" role="radio" aria-checked="false">
+                  <div class="option-icon-wrap">
+                    <svg viewBox="0 0 60 70" class="shape-svg" aria-hidden="true">
+                      <polygon points="30,8 52,35 30,62 8,35" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linejoin="round" />
+                    </svg>
+                  </div>
+                  <h4 class="option-name">Diamond</h4>
+                  <p class="option-desc">Dramatic high cheekbones with a narrower forehead and pointed chin.</p>
+                </button>
+
+              </div>
+            </div>
+
+            <!-- STEP 2: Personal Style -->
+            <div class="selector-step-card" data-step="2">
+              <div class="step-header">
+                <h3 class="step-title">What is your personal style aesthetic?</h3>
+                <p class="step-subtitle">How would you like your eyewear to represent you daily?</p>
+              </div>
+
+              <div class="selector-options-grid options-5-col">
+                
+                <button type="button" class="selector-option-btn" data-step="2" data-category="style" data-value="minimal" role="radio" aria-checked="false">
+                  <div class="option-icon-wrap">
+                    <span class="style-emoji">▫️</span>
+                  </div>
+                  <h4 class="option-name">Minimal</h4>
+                  <p class="option-desc">Pure lines, razor-thin wireframes, understated Scandinavian elegance.</p>
+                </button>
+
+                <button type="button" class="selector-option-btn" data-step="2" data-category="style" data-value="classic" role="radio" aria-checked="false">
+                  <div class="option-icon-wrap">
+                    <span class="style-emoji">☕</span>
+                  </div>
+                  <h4 class="option-name">Classic</h4>
+                  <p class="option-desc">Timeless Havana tortoiseshell, tailored silhouettes, scholarly prestige.</p>
+                </button>
+
+                <button type="button" class="selector-option-btn" data-step="2" data-category="style" data-value="bold" role="radio" aria-checked="false">
+                  <div class="option-icon-wrap">
+                    <span class="style-emoji">🕶️</span>
+                  </div>
+                  <h4 class="option-name">Bold</h4>
+                  <p class="option-desc">Thick 10mm sculptural bio-acetate, unapologetic runway presence.</p>
+                </button>
+
+                <button type="button" class="selector-option-btn" data-step="2" data-category="style" data-value="professional" role="radio" aria-checked="false">
+                  <div class="option-icon-wrap">
+                    <span class="style-emoji">💼</span>
+                  </div>
+                  <h4 class="option-name">Professional</h4>
+                  <p class="option-desc">Sleek matte metals, executive presence, boardroom-ready focus.</p>
+                </button>
+
+                <button type="button" class="selector-option-btn" data-step="2" data-category="style" data-value="creative" role="radio" aria-checked="false">
+                  <div class="option-icon-wrap">
+                    <span class="style-emoji">🎨</span>
+                  </div>
+                  <h4 class="option-name">Creative</h4>
+                  <p class="option-desc">Architectural hexagons, double bridges, design-forward avant-garde.</p>
+                </button>
+
+              </div>
+            </div>
+
+            <!-- STEP 3: Frame Material -->
+            <div class="selector-step-card" data-step="3">
+              <div class="step-header">
+                <h3 class="step-title">Which craftsmanship material do you prefer?</h3>
+                <p class="step-subtitle">Every FrameLab material is sourced from certified artisan partners.</p>
+              </div>
+
+              <div class="selector-options-grid options-4-col">
+                
+                <button type="button" class="selector-option-btn" data-step="3" data-category="material" data-value="titanium" role="radio" aria-checked="false">
+                  <div class="option-icon-wrap">
+                    <span class="material-badge">4.2g</span>
+                  </div>
+                  <h4 class="option-name">Japanese Titanium</h4>
+                  <p class="option-desc">Featherlight, hypoallergenic, and aerospace flexible. Pure luxury.</p>
+                </button>
+
+                <button type="button" class="selector-option-btn" data-step="3" data-category="material" data-value="acetate" role="radio" aria-checked="false">
+                  <div class="option-icon-wrap">
+                    <span class="material-badge">Handmade</span>
+                  </div>
+                  <h4 class="option-name">Italian Bio-Acetate</h4>
+                  <p class="option-desc">Mazzucchelli cotton-seed cellulose. Lustrous, warm, rich depth.</p>
+                </button>
+
+                <button type="button" class="selector-option-btn" data-step="3" data-category="material" data-value="metal" role="radio" aria-checked="false">
+                  <div class="option-icon-wrap">
+                    <span class="material-badge">Durable</span>
+                  </div>
+                  <h4 class="option-name">Stainless & Monel</h4>
+                  <p class="option-desc">Surgical-grade steel alloy with scratch-resistant ion plating.</p>
+                </button>
+
+                <button type="button" class="selector-option-btn" data-step="3" data-category="material" data-value="transparent" role="radio" aria-checked="false">
+                  <div class="option-icon-wrap">
+                    <span class="material-badge">Crystal</span>
+                  </div>
+                  <h4 class="option-name">Luminescent Clear</h4>
+                  <p class="option-desc">Water-clear crystal acetate highlighting natural facial features.</p>
+                </button>
+
+              </div>
+            </div>
+
+            <!-- STEP 4: Budget Range -->
+            <div class="selector-step-card" data-step="4">
+              <div class="step-header">
+                <h3 class="step-title">What is your targeted investment range?</h3>
+                <p class="step-subtitle">Transparent pricing in Indian Rupees (₹) including all lens coatings & taxes.</p>
+              </div>
+
+              <div class="selector-options-grid options-4-col">
+                
+                <button type="button" class="selector-option-btn" data-step="4" data-category="budget" data-value="under-2000" role="radio" aria-checked="false">
+                  <div class="option-icon-wrap">
+                    <span class="budget-tag">Under ₹2K</span>
+                  </div>
+                  <h4 class="option-name">Under ₹2,000</h4>
+                  <p class="option-desc">Daily dependable spectacles crafted from flexible TR90 and metal.</p>
+                </button>
+
+                <button type="button" class="selector-option-btn" data-step="4" data-category="budget" data-value="2000-4000" role="radio" aria-checked="false">
+                  <div class="option-icon-wrap">
+                    <span class="budget-tag">₹2K–₹4K</span>
+                  </div>
+                  <h4 class="option-name">₹2,000 – ₹4,000</h4>
+                  <p class="option-desc">Our most popular tier: surgical steel and bespoke matte acetate.</p>
+                </button>
+
+                <button type="button" class="selector-option-btn" data-step="4" data-category="budget" data-value="4000-7000" role="radio" aria-checked="false">
+                  <div class="option-icon-wrap">
+                    <span class="budget-tag">₹4K–₹7K</span>
+                  </div>
+                  <h4 class="option-name">₹4,000 – ₹7,000</h4>
+                  <p class="option-desc">Hand-carved Italian bio-acetate & contemporary geometric wireframes.</p>
+                </button>
+
+                <button type="button" class="selector-option-btn" data-step="4" data-category="budget" data-value="above-7000" role="radio" aria-checked="false">
+                  <div class="option-icon-wrap">
+                    <span class="budget-tag">₹7K+</span>
+                  </div>
+                  <h4 class="option-name">Above ₹7,000</h4>
+                  <p class="option-desc">Flagship Sabae Japanese beta-titanium and artisan limited editions.</p>
+                </button>
+
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Wizard Navigation Footer -->
+          <div class="wizard-footer-actions">
+            <button id="btnSelectorPrev" class="btn btn-secondary">
+              <svg class="btn-icon-left" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+              </svg>
+              <span>Previous Step</span>
+            </button>
+
+            <button id="btnSelectorNext" class="btn btn-primary">
+              <span>Continue</span>
+              <svg class="btn-icon" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+              </svg>
+            </button>
+          </div>
+
+        </div>
+
+        <!-- Dynamic Recommendations Results Panel (Hidden Initially) -->
+        <div id="selectorResultsSection" class="selector-results-wrapper hidden">
+          <div class="results-intro-banner">
+            <div class="results-badge">CURATED BIOMETRIC SELECTION</div>
+            <h3 id="selectorFaceTitle" class="results-title">Your Tailored Match Profile</h3>
+            <p id="selectorFaceAdvice" class="results-advice"></p>
+          </div>
+
+          <div id="selectorRecommendationsGrid" class="recommendations-grid">
+            <!-- Dynamically populated via selector.js -->
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== VIRTUAL STUDIO INTERACTIVE PREVIEW ==================== -->
+    <section id="virtualStudioSection" class="virtual-studio-section">
+      <div class="container">
+        
+        <div class="section-intro text-center">
+          <span class="section-badge">INTERACTIVE VISUAL STUDIO</span>
+          <h2 class="section-title">Harmonize Frame & Face in Real Time</h2>
+          <p class="section-subtitle">
+            Explore how different frame silhouettes, temple widths, and lens coatings sit across diverse facial morphotypes and skin tones.
+          </p>
+        </div>
+
+        <div class="studio-workspace-card">
+          
+          <!-- Column 1: Live Interactive Face Visualizer -->
+          <div class="studio-canvas-column">
+            <div class="studio-face-viewport" id="virtualFaceContainer">
+              <!-- SVG Dynamically rendered by VirtualStudio in virtual-studio.js -->
+            </div>
+
+            <div class="studio-canvas-footer-hud">
+              <span class="hud-status-indicator"></span>
+              <span class="hud-text">Live Vector Simulation &bull; Real-Time Color Reflex</span>
+            </div>
+          </div>
+
+          <!-- Column 2: Studio Customization Controls Deck -->
+          <div class="studio-controls-column">
+            
+            <!-- Control 1: Face Shape -->
+            <div class="studio-control-group">
+              <label class="control-label">1. Facial Morphotype</label>
+              <div class="studio-pill-buttons">
+                <button type="button" class="studio-face-btn active" data-shape="oval">Oval</button>
+                <button type="button" class="studio-face-btn" data-shape="round">Round</button>
+                <button type="button" class="studio-face-btn" data-shape="square">Square</button>
+                <button type="button" class="studio-face-btn" data-shape="heart">Heart</button>
+                <button type="button" class="studio-face-btn" data-shape="diamond">Diamond</button>
+              </div>
+            </div>
+
+            <!-- Control 2: Skin Tone -->
+            <div class="studio-control-group">
+              <label class="control-label">2. Skin Complexion Tone</label>
+              <div class="studio-skin-swatches">
+                <button type="button" class="studio-skin-dot" data-tone="fair" style="background-color: #FDEEE4;" title="Fair / Porcelain"></button>
+                <button type="button" class="studio-skin-dot" data-tone="sand" style="background-color: #F3DFCB;" title="Warm Sand"></button>
+                <button type="button" class="studio-skin-dot active" data-tone="honey" style="background-color: #DEAC80;" title="Warm Honey / Wheatish"></button>
+                <button type="button" class="studio-skin-dot" data-tone="bronze" style="background-color: #A76F46;" title="Rich Bronze"></button>
+                <button type="button" class="studio-skin-dot" data-tone="deep" style="background-color: #5C341F;" title="Deep Espresso"></button>
+              </div>
+            </div>
+
+            <!-- Control 3: Frame Silhouette -->
+            <div class="studio-control-group">
+              <label for="studioFrameShape" class="control-label">3. Eyewear Silhouette</label>
+              <select id="studioFrameShape" class="studio-select">
+                <option value="round" selected>Panto Round (The Kyoto / Stockholm)</option>
+                <option value="square">Tailored Square (The Milanese / Oxford)</option>
+                <option value="aviator">Architectural Navigator (The Zurich / Aspen)</option>
+                <option value="cat-eye">Sculpted Cat-Eye (The Marais)</option>
+                <option value="geometric">Hexagonal Geometric (The Berlin / Soho)</option>
+                <option value="rimless">Drill-Mount Rimless (The Chelsea)</option>
+              </select>
+            </div>
+
+            <!-- Control 4: Frame Color -->
+            <div class="studio-control-group">
+              <label class="control-label">4. Frame Finish & Colorway</label>
+              <div class="studio-color-swatches">
+                <button type="button" class="studio-color-dot active" data-color="#111827" style="background-color: #111827;" title="Matte Obsidian"></button>
+                <button type="button" class="studio-color-dot" data-color="#78350F" style="background-color: #78350F;" title="Havana Tortoise"></button>
+                <button type="button" class="studio-color-dot" data-color="#D4AF37" style="background-color: #D4AF37;" title="Champagne Gold"></button>
+                <button type="button" class="studio-color-dot" data-color="#C86228" style="background-color: #C86228;" title="Warm Copper"></button>
+                <button type="button" class="studio-color-dot" data-color="#E5E7EB" style="background-color: #E5E7EB;" title="Crystal Clear"></button>
+                <button type="button" class="studio-color-dot" data-color="#1E3A8A" style="background-color: #1E3A8A;" title="Midnight Navy"></button>
+              </div>
+            </div>
+
+            <!-- Control 5: Lens Coating Reflex -->
+            <div class="studio-control-group">
+              <label class="control-label">5. Lens Optical Coating Reflex</label>
+              <div class="studio-tint-grid">
+                <button type="button" class="studio-tint-btn active" data-tint="ar-blue">Anti-Reflective Blue</button>
+                <button type="button" class="studio-tint-btn" data-tint="amber">Sun Amber</button>
+                <button type="button" class="studio-tint-btn" data-tint="smoke">Slate Smoke</button>
+                <button type="button" class="studio-tint-btn" data-tint="rose">Rose Gradient</button>
+                <button type="button" class="studio-tint-btn" data-tint="clear">Ultra Clear</button>
+              </div>
+            </div>
+
+            <!-- Control 6: Ergonomic Sliders -->
+            <div class="studio-control-group">
+              <div class="slider-row">
+                <label for="studioScaleSlider" class="control-label-sm">
+                  <span>Frame Scale</span>
+                  <span id="studioScaleVal" class="val-pill">100%</span>
+                </label>
+                <input type="range" id="studioScaleSlider" min="0.90" max="1.15" step="0.01" value="1.0" class="studio-slider">
+              </div>
+
+              <div class="slider-row mt-2">
+                <label for="studioBridgeSlider" class="control-label-sm">
+                  <span>Bridge Vertical Alignment</span>
+                </label>
+                <input type="range" id="studioBridgeSlider" min="-12" max="12" step="1" value="0" class="studio-slider">
+              </div>
+            </div>
+
+            <!-- Control 7: Alignment Guide Toggle -->
+            <div class="studio-control-group">
+              <label class="toggle-switch-label">
+                <input type="checkbox" id="studioGuidesToggle">
+                <span class="toggle-slider"></span>
+                <span class="toggle-text">Show Pupillary Distance (PD) & Symmetry Datum Line</span>
+              </label>
+            </div>
+
+            <!-- Studio Action Button -->
+            <div class="studio-action-box">
+              <button id="btnStudioFindMatch" class="btn btn-primary w-full">
+                Find Compatible Frames in Catalog
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== PRODUCT CATALOG & FILTERS ==================== -->
+    <section id="catalogSection" class="catalog-section">
+      <div class="container">
+        
+        <div class="section-intro">
+          <div class="catalog-header-flex">
+            <div>
+              <span class="section-badge">PRECISION CRAFTSMANSHIP</span>
+              <h2 class="section-title">The FrameLab Collection</h2>
+              <p class="section-subtitle">
+                Engineered with screwless German hinges, hand-polished Japanese titanium, and Italian bio-acetate.
+              </p>
+            </div>
+            <div class="catalog-count-badge" id="catalogProductsCount">
+              Loading Collection...
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter & Search Toolbar -->
+        <div class="catalog-toolbar-card">
+          <div class="toolbar-search-wrap">
+            <svg class="search-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"/>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+            </svg>
+            <input type="text" 
+                   id="catalogSearchInput" 
+                   class="search-input" 
+                   placeholder="Search by model, material, color, or style (e.g. Titanium, Havana, Cat-Eye)..." 
+                   aria-label="Search FrameLab Eyewear Collection">
+          </div>
+
+          <div class="toolbar-filters-grid">
+            
+            <!-- Filter: Material -->
+            <div class="filter-col">
+              <label for="filterMaterial" class="filter-label">Material</label>
+              <select id="filterMaterial" class="filter-select">
+                <option value="all">All Materials</option>
+                <option value="titanium">Japanese Titanium</option>
+                <option value="acetate">Italian Bio-Acetate</option>
+                <option value="metal">Stainless & Monel</option>
+                <option value="transparent">Crystal Transparent</option>
+              </select>
+            </div>
+
+            <!-- Filter: Face Shape -->
+            <div class="filter-col">
+              <label for="filterFaceShape" class="filter-label">Face Shape</label>
+              <select id="filterFaceShape" class="filter-select">
+                <option value="all">All Face Shapes</option>
+                <option value="oval">Oval Face</option>
+                <option value="round">Round Face</option>
+                <option value="square">Square Face</option>
+                <option value="heart">Heart Face</option>
+                <option value="diamond">Diamond Face</option>
+              </select>
+            </div>
+
+            <!-- Filter: Style -->
+            <div class="filter-col">
+              <label for="filterStyle" class="filter-label">Style</label>
+              <select id="filterStyle" class="filter-select">
+                <option value="all">All Styles</option>
+                <option value="minimal">Minimalist</option>
+                <option value="classic">Classic Tailored</option>
+                <option value="bold">Bold Statement</option>
+                <option value="professional">Professional</option>
+                <option value="creative">Creative Avant-Garde</option>
+              </select>
+            </div>
+
+            <!-- Filter: Budget -->
+            <div class="filter-col">
+              <label for="filterBudget" class="filter-label">Price Range (₹)</label>
+              <select id="filterBudget" class="filter-select">
+                <option value="all">All Budgets</option>
+                <option value="under-2000">Under ₹2,000</option>
+                <option value="2000-4000">₹2,000 – ₹4,000</option>
+                <option value="4000-7000">₹4,000 – ₹7,000</option>
+                <option value="above-7000">Above ₹7,000</option>
+              </select>
+            </div>
+
+            <!-- Sorter -->
+            <div class="filter-col">
+              <label for="catalogSortBy" class="filter-label">Sort Order</label>
+              <select id="catalogSortBy" class="filter-select">
+                <option value="featured">Featured / Bestsellers</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="rating-desc">Highest Rated</option>
+                <option value="newest">New Arrivals</option>
+              </select>
+            </div>
+
+            <!-- Reset Filters -->
+            <div class="filter-col-action">
+              <button id="btnResetFilters" class="btn btn-secondary btn-reset-filters" title="Reset Filters">
+                Clear Filters
+              </button>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Products Grid Container -->
+        <div id="productsGrid" class="products-catalog-grid" role="region" aria-label="Eyewear Products">
+          <!-- Dynamically populated via app.js -->
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ==================== CURATED EDITS / COLLECTIONS ==================== -->
+    <section id="collectionsSection" class="collections-section">
+      <div class="container">
+        <div class="section-intro text-center">
+          <span class="section-badge">EDITORIAL CURATIONS</span>
+          <h2 class="section-title">The 2026 Curated Edits</h2>
+          <p class="section-subtitle">Specially assembled thematic selections for diverse aesthetic palettes.</p>
+        </div>
+
+        <div class="collections-cards-grid">
+          
+          <div class="collection-editorial-card">
+            <img src="assets/images/collection-titanium.jpg" 
+                 onerror="this.onerror=null; this.src='assets/images/fallback-eyewear.svg';"
+                 alt="The Japanese Titanium Edit" 
+                 class="col-card-bg" />
+            <div class="col-card-overlay">
+              <span class="col-tag">AEROSPACE GRADE</span>
+              <h3 class="col-title">The Titanium Edit</h3>
+              <p class="col-desc">Sabae Japanese beta-titanium frames weighing under 5 grams for weightless distinction.</p>
+              <a href="#catalogSection" class="col-link">Explore Titanium &rarr;</a>
+            </div>
+          </div>
+
+          <div class="collection-editorial-card">
+            <img src="assets/images/collection-acetate.jpg" 
+                 onerror="this.onerror=null; this.src='assets/images/fallback-eyewear.svg';"
+                 alt="Hand-Carved Italian Bio-Acetate" 
+                 class="col-card-bg" />
+            <div class="col-card-overlay">
+              <span class="col-tag">ORGANIC LUXURY</span>
+              <h3 class="col-title">Architectural Acetate</h3>
+              <p class="col-desc">Mazzucchelli 1849 cotton-seed cellulose tumbled in organic beechwood for 72 hours.</p>
+              <a href="#catalogSection" class="col-link">Explore Acetate &rarr;</a>
+            </div>
+          </div>
+
+          <div class="collection-editorial-card">
+            <img src="assets/images/collection-crystal.jpg" 
+                 onerror="this.onerror=null; this.src='assets/images/fallback-eyewear.svg';"
+                 alt="Luminescent Crystal Bio-Resin" 
+                 class="col-card-bg" />
+            <div class="col-card-overlay">
+              <span class="col-tag">PURE REFRACTION</span>
+              <h3 class="col-title">Luminescent Clear</h3>
+              <p class="col-desc">Water-clear transparent frames that soften harsh facial lines and celebrate natural expressions.</p>
+              <a href="#catalogSection" class="col-link">Explore Clear Frames &rarr;</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== ABOUT & CRAFTSMANSHIP ==================== -->
+    <section id="aboutSection" class="about-section">
+      <div class="container about-grid">
+        <div class="about-image-col">
+          <div class="about-image-frame">
+            <img src="assets/images/craftsmanship-artisan.jpg" 
+                 onerror="this.onerror=null; this.src='assets/images/fallback-eyewear.svg';"
+                 alt="Artisan inspecting eyewear frame" 
+                 class="about-img" />
+            <div class="about-badge-card">
+              <span class="about-badge-title">100% Optical Lab Precision</span>
+              <span class="about-badge-sub">ISO 8624 & ANSI Z80.1 Calibrated</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="about-content-col">
+          <span class="section-badge">OUR ETHOS</span>
+          <h2 class="about-title">Why FrameLab Re-Engineered Eyewear</h2>
+          
+          <p class="about-text">
+            For decades, retail optical stores have forced patrons to choose between overpriced designer licenses with fragile acetate, or generic mass-market spectacles that slip down nasal bridges and distort peripheral vision.
+          </p>
+
+          <p class="about-text">
+            At FrameLab, we treat eyewear as an architectural discipline. We calculate your <strong>pupillary distance (PD)</strong>, <strong>pantoscopic tilt</strong>, and <strong>facial morphometry</strong> to ensure your optical center aligns precisely with your line of sight.
+          </p>
+
+          <div class="about-pillars-grid">
+            <div class="pillar-item">
+              <div class="pillar-icon">01</div>
+              <h4>Zero-Middlemen Luxury</h4>
+              <p>Direct partnerships with master artisans in Sabae, Japan and Varese, Italy eliminate retail markups.</p>
+            </div>
+            <div class="pillar-item">
+              <div class="pillar-icon">02</div>
+              <h4>Ophthalmic Precision</h4>
+              <p>Every prescription is surfaced with premium anti-reflective, oleophobic, and UV400 coatings.</p>
+            </div>
+            <div class="pillar-item">
+              <div class="pillar-icon">03</div>
+              <h4>Sustainable Bio-Materials</h4>
+              <p>Eco-friendly plant-based bio-acetate derived from FSC-certified cotton seed and wood pulp.</p>
+            </div>
+            <div class="pillar-item">
+              <div class="pillar-icon">04</div>
+              <h4>All-India Delivery</h4>
+              <p>Insured courier delivery to over 19,000 pincodes across India with 14-day return guarantees.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== TESTIMONIALS ==================== -->
+    <section class="testimonials-section">
+      <div class="container">
+        <div class="section-intro text-center">
+          <span class="section-badge">PATRON VOICES</span>
+          <h2 class="section-title">Loved by Discerning Visionaries</h2>
+          <p class="section-subtitle">Real experiences from architects, engineers, doctors, and designers across India.</p>
+        </div>
+
+        <div class="testimonials-grid">
+          
+          <div class="testimonial-card">
+            <div class="t-stars">★★★★★</div>
+            <p class="t-quote">
+              "The Kyoto Titanium frame is an absolute masterpiece. I spend 12 hours a day coding and reviewing architecture docs. At 4.2 grams, I genuinely forget I’m wearing glasses. The anti-blue coating has eliminated my digital eye strain."
+            </p>
+            <div class="t-author">
+              <div class="t-avatar">AK</div>
+              <div>
+                <h5 class="t-name">Aditya Kulkarni</h5>
+                <span class="t-role">Principal Systems Architect &bull; Bengaluru</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="t-stars">★★★★★</div>
+            <p class="t-quote">
+              "As an architect, proportions are everything to me. The Smart Selector recommended The Milanese Havana for my round face shape, and the fit was impeccable. The hand-beveled bio-acetate has a tactile depth you simply cannot find elsewhere."
+            </p>
+            <div class="t-author">
+              <div class="t-avatar">MS</div>
+              <div>
+                <h5 class="t-name">Meera Swaminathan</h5>
+                <span class="t-role">Lead Architectural Designer &bull; Mumbai</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="testimonial-card">
+            <div class="t-stars">★★★★★</div>
+            <p class="t-quote">
+              "I was initially nervous about ordering prescription progressive lenses online. The Virtual Studio helped me visualize the frame fit, and FrameLab’s verification team verified my doctor’s prescription over WhatsApp before surfacing."
+            </p>
+            <div class="t-author">
+              <div class="t-avatar">RV</div>
+              <div>
+                <h5 class="t-name">Dr. Rajesh Varma</h5>
+                <span class="t-role">Cardiothoracic Consultant &bull; New Delhi</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== FITTING GUIDE & FAQ ==================== -->
+    <section id="faqSection" class="faq-section">
+      <div class="container">
+        <div class="section-intro text-center">
+          <span class="section-badge">TRANSPARENT ANSWERS</span>
+          <h2 class="section-title">Prescription & Fitting Questions</h2>
+          <p class="section-subtitle">Everything you need to know about prescriptions, pupillary distance, and materials.</p>
+        </div>
+
+        <div class="faq-accordion-wrap">
+          
+          <div class="faq-item">
+            <button class="faq-question-btn" type="button" aria-expanded="false">
+              <span>How do I submit my ophthalmic prescription?</span>
+              <svg class="faq-icon" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            <div class="faq-answer-body">
+              <p>You can upload a photo of your doctor's prescription during checkout, enter your SPH, CYL, Axis, and Add values manually, or email it to our opticians at <code>rx@framelab.in</code>. Our licensed optometry team reviews every prescription before surfacing.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question-btn" type="button" aria-expanded="false">
+              <span>What is Pupillary Distance (PD) and how is it measured?</span>
+              <svg class="faq-icon" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            <div class="faq-answer-body">
+              <p>Pupillary Distance (PD) is the distance in millimeters between the centers of your two pupils. It ensures the optical center of the lens is placed directly in front of your visual axis. Most doctor prescriptions include your PD (typically 58mm–68mm for adults). If unlisted, our digital card measurement guide can calculate it via photo with millimeter precision.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question-btn" type="button" aria-expanded="false">
+              <span>What is the difference between Japanese Titanium and standard steel?</span>
+              <svg class="faq-icon" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            <div class="faq-answer-body">
+              <p>Japanese beta-titanium forged in Sabae is 48% lighter than stainless steel, completely nickel-free and hypoallergenic (preventing skin corrosion and green copper deposits), and features natural elastic shape memory that flexes around your temples without bending out of alignment.</p>
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question-btn" type="button" aria-expanded="false">
+              <span>What is your return and in-home trial guarantee?</span>
+              <svg class="faq-icon" viewBox="0 0 20 20" fill="currentColor">
+                <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
+              </svg>
+            </button>
+            <div class="faq-answer-body">
+              <p>We provide a 14-day hassle-free return window on all frames. If the fit, bridge width, or aesthetic does not feel completely natural, our concierge service arranges free doorstep pickup and full refunds or prescription adjustments.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== FAVORITES DRAWER ==================== -->
+  <aside id="favoritesDrawer" class="framelab-drawer" aria-label="Saved Favorites">
+    <div class="drawer-header">
+      <div class="drawer-title-group">
+        <h3>Saved Frames</h3>
+        <span class="drawer-sub">Saved in your local browser profile</span>
+      </div>
+      <button id="btnCloseFavorites" class="drawer-close-btn" aria-label="Close Favorites">&times;</button>
+    </div>
+    <div id="favoritesList" class="drawer-body">
+      <!-- Populated via app.js -->
+    </div>
+  </aside>
+  <div id="favoritesDrawerOverlay" class="drawer-backdrop hidden"></div>
+
+  <!-- ==================== CART / BAG DRAWER ==================== -->
+  <aside id="cartDrawer" class="framelab-drawer" aria-label="Shopping Bag">
+    <div class="drawer-header">
+      <div class="drawer-title-group">
+        <h3>Shopping Bag</h3>
+        <span id="cartShippingStatus" class="drawer-sub">Complimentary Express Shipping</span>
+      </div>
+      <button id="btnCloseCart" class="drawer-close-btn" aria-label="Close Bag">&times;</button>
+    </div>
+    <div id="cartItemsList" class="drawer-body">
+      <!-- Populated via app.js -->
+    </div>
+    <div class="drawer-footer">
+      <div class="cart-subtotal-row">
+        <span>Subtotal (Incl. Taxes):</span>
+        <span id="cartSubtotalAmount" class="subtotal-val">₹0</span>
+      </div>
+      <button id="btnCartCheckout" class="btn btn-primary w-full btn-lg" disabled>
+        Proceed to Secure Checkout
+      </button>
+      <p class="drawer-reassurance">256-Bit Encrypted Payments &bull; UPI, Cards & NetBanking</p>
+    </div>
+  </aside>
+  <div id="cartDrawerOverlay" class="drawer-backdrop hidden"></div>
+
+  <!-- ==================== QUICK VIEW PRODUCT MODAL ==================== -->
+  <div id="quickViewModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="quickViewContainer">
+    <div class="quickview-modal-card">
+      <button id="btnCloseQuickView" class="modal-close-icon" aria-label="Close Quick View">&times;</button>
+      <div id="quickViewContainer" class="quickview-body">
+        <!-- Populated via app.js -->
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== RAZORPAY CHECKOUT MODAL ==================== -->
+  <div id="checkoutModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="checkoutModalTitle">
+    <div class="checkout-modal-card">
+      <div class="checkout-modal-header">
+        <div class="checkout-brand-title">
+          <span class="lock-icon">🔒</span>
+          <div>
+            <h3 id="checkoutModalTitle">FrameLab Secure Checkout</h3>
+            <p class="checkout-subtitle">Official Razorpay Payment Gateway &bull; 256-Bit SSL Encrypted</p>
+          </div>
+        </div>
+        <button id="btnCloseCheckout" class="modal-close-icon" aria-label="Close Checkout">&times;</button>
+      </div>
+
+      <div class="checkout-modal-body">
+        <!-- Test Mode Alert Banner -->
+        <div id="checkoutTestModeNotice" class="test-mode-banner">
+          <div class="test-banner-pill">TEST MODE ACTIVE</div>
+          <p>
+            You are operating in <strong>Razorpay Test Mode</strong>. Transactions are simulated safely without real bank deductions. You may use any test UPI ID (e.g. <code>success@razorpay</code>) or test cards.
+          </p>
+        </div>
+
+        <form id="checkoutShippingForm" class="checkout-grid-layout" novalidate>
+          <!-- Left Column: Shipping & Customer Details -->
+          <div class="checkout-form-col">
+            <h4 class="checkout-section-heading">1. Shipping & Contact Details</h4>
+            
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="shippingFullName" class="form-label">Full Name <span class="req">*</span></label>
+                <input type="text" id="shippingFullName" class="form-input" placeholder="e.g. Aditya Sharma" required>
+                <span class="field-error" id="err-shippingFullName"></span>
+              </div>
+              <div class="form-group">
+                <label for="shippingEmail" class="form-label">Email Address <span class="req">*</span></label>
+                <input type="email" id="shippingEmail" class="form-input" placeholder="aditya@example.com" required>
+                <span class="field-error" id="err-shippingEmail"></span>
+              </div>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="shippingPhone" class="form-label">Mobile Phone (India +91) <span class="req">*</span></label>
+                <div class="phone-input-wrap">
+                  <span class="phone-prefix">+91</span>
+                  <input type="tel" id="shippingPhone" class="form-input" placeholder="9876543210" maxlength="10" required>
+                </div>
+                <span class="field-error" id="err-shippingPhone"></span>
+              </div>
+              <div class="form-group">
+                <label for="shippingPincode" class="form-label">Postal PIN Code (6 Digits) <span class="req">*</span></label>
+                <input type="text" id="shippingPincode" class="form-input" placeholder="400001" maxlength="6" required>
+                <span class="field-error" id="err-shippingPincode"></span>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="shippingAddress" class="form-label">Flat / House No. / Street Address <span class="req">*</span></label>
+              <input type="text" id="shippingAddress" class="form-input" placeholder="Apartment 4B, Hill Road, Bandra West" required>
+              <span class="field-error" id="err-shippingAddress"></span>
+            </div>
+
+            <div class="form-row-2">
+              <div class="form-group">
+                <label for="shippingCity" class="form-label">City <span class="req">*</span></label>
+                <input type="text" id="shippingCity" class="form-input" placeholder="Mumbai" required>
+                <span class="field-error" id="err-shippingCity"></span>
+              </div>
+              <div class="form-group">
+                <label for="shippingState" class="form-label">State / Territory <span class="req">*</span></label>
+                <select id="shippingState" class="form-input" required>
+                  <option value="">Select State</option>
+                  <option value="Maharashtra" selected>Maharashtra</option>
+                  <option value="Karnataka">Karnataka</option>
+                  <option value="Delhi">Delhi NCR</option>
+                  <option value="Tamil Nadu">Tamil Nadu</option>
+                  <option value="Telangana">Telangana</option>
+                  <option value="Gujarat">Gujarat</option>
+                  <option value="Kerala">Kerala</option>
+                  <option value="West Bengal">West Bengal</option>
+                  <option value="Uttar Pradesh">Uttar Pradesh</option>
+                  <option value="Rajasthan">Rajasthan</option>
+                  <option value="Punjab">Punjab</option>
+                  <option value="Haryana">Haryana</option>
+                  <option value="Andhra Pradesh">Andhra Pradesh</option>
+                  <option value="Madhya Pradesh">Madhya Pradesh</option>
+                  <option value="Bihar">Bihar</option>
+                  <option value="Goa">Goa</option>
+                  <option value="Other">Other States & UTs</option>
+                </select>
+                <span class="field-error" id="err-shippingState"></span>
+              </div>
+            </div>
+
+            <h4 class="checkout-section-heading mt-4">2. Select Shipping Method</h4>
+            <div class="shipping-methods-selector">
+              <label class="shipping-method-option active" id="optShippingStandard">
+                <input type="radio" name="shippingMethod" value="standard" checked>
+                <div class="method-details">
+                  <div class="method-title-row">
+                    <span class="method-name">Standard Insured Express</span>
+                    <span class="method-fee" id="checkoutStandardFeeLabel">FREE</span>
+                  </div>
+                  <p class="method-desc">3–5 business days across India &bull; Zero transit breakage risk</p>
+                </div>
+              </label>
+
+              <label class="shipping-method-option" id="optShippingPriority">
+                <input type="radio" name="shippingMethod" value="priority">
+                <div class="method-details">
+                  <div class="method-title-row">
+                    <span class="method-name">Priority Air Courier</span>
+                    <span class="method-fee">₹150</span>
+                  </div>
+                  <p class="method-desc">Dispatched within 24 hours &bull; Expedited blue dart air delivery</p>
+                </div>
+              </label>
+            </div>
+
+            <!-- Razorpay Payment Methods Showcase -->
+            <div class="payment-channels-card mt-4">
+              <div class="channels-title">Supported Payment Channels via Razorpay:</div>
+              <div class="channels-badges-list">
+                <span class="channel-badge upi-badge">⚡ UPI (GPay, PhonePe, Paytm, BHIM)</span>
+                <span class="channel-badge">💳 Credit & Debit Cards (Visa, MC, RuPay)</span>
+                <span class="channel-badge">🏛️ NetBanking (50+ Indian Banks)</span>
+                <span class="channel-badge">📱 CRED, PayLater & Wallets</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Right Column: Order Summary & Payment Button -->
+          <div class="checkout-summary-col">
+            <h4 class="checkout-section-heading">3. Order Summary</h4>
+            
+            <div id="checkoutOrderItemsList" class="checkout-items-scroll">
+              <!-- Dynamically populated -->
+            </div>
+
+            <div class="checkout-calculation-box">
+              <div class="calc-row">
+                <span>Items Subtotal:</span>
+                <span id="checkoutSubtotal">₹0</span>
+              </div>
+              <div class="calc-row">
+                <span>Delivery Charges:</span>
+                <span id="checkoutDeliveryCharges" class="text-green">FREE</span>
+              </div>
+              <div class="calc-row text-muted text-xs">
+                <span>Applicable Taxes:</span>
+                <span>18% GST Included</span>
+              </div>
+              <div class="calc-divider"></div>
+              <div class="calc-row calc-total-row">
+                <span>Total Amount Payable:</span>
+                <span id="checkoutGrandTotal" class="total-val">₹0</span>
+              </div>
+            </div>
+
+            <div class="checkout-action-box">
+              <button type="submit" id="btnPayWithRazorpay" class="btn btn-primary w-full btn-lg btn-pay-rzp">
+                <span class="btn-lock">🔒</span>
+                <span id="btnPayText">Pay via Razorpay &bull; ₹0</span>
+              </button>
+              <p class="checkout-security-footnote">
+                ✓ Cryptographic HMAC-SHA256 signature verification on backend.<br>
+                ✓ We never store your card numbers or UPI PINs.
+              </p>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== ORDER CONFIRMATION & RECEIPT MODAL ==================== -->
+  <div id="orderReceiptModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="receiptModalTitle">
+    <div class="receipt-modal-card">
+      <div class="receipt-header">
+        <div class="receipt-success-badge">
+          <svg class="check-svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <polyline points="20 6 9 17 4 12" />
+          </svg>
+        </div>
+        <h3 id="receiptModalTitle" class="receipt-title">Payment Confirmed & Verified!</h3>
+        <p class="receipt-subtitle">Thank you for your patronage. Your eyewear order has been authenticated on our secure server.</p>
+      </div>
+
+      <div class="receipt-body">
+        <div class="receipt-meta-grid">
+          <div class="receipt-meta-box">
+            <span class="meta-label">FrameLab Order ID</span>
+            <strong id="receiptOrderId" class="meta-value font-mono">-</strong>
+          </div>
+          <div class="receipt-meta-box">
+            <span class="meta-label">Razorpay Payment Reference</span>
+            <strong id="receiptPaymentId" class="meta-value font-mono">-</strong>
+          </div>
+          <div class="receipt-meta-box">
+            <span class="meta-label">Payment Status</span>
+            <span class="status-badge-paid">✓ Cryptographically Verified & Captured</span>
+          </div>
+          <div class="receipt-meta-box">
+            <span class="meta-label">Payment Method</span>
+            <strong id="receiptPaymentMethod" class="meta-value">-</strong>
+          </div>
+        </div>
+
+        <div class="receipt-shipping-summary mt-3">
+          <h5>Delivery Destination:</h5>
+          <p id="receiptCustomerAddress" class="text-sm"></p>
+          <p class="text-xs text-muted mt-1">Estimated Dispatch: Within 24-48 Hours &bull; Courier tracking details sent via SMS & Email.</p>
+        </div>
+
+        <div class="receipt-items-table-wrap mt-3">
+          <h5>Purchased Spectacles & Specifications:</h5>
+          <table class="receipt-table">
+            <thead>
+              <tr>
+                <th>Frame</th>
+                <th>Specifications</th>
+                <th>Qty</th>
+                <th>Price (₹)</th>
+              </tr>
+            </thead>
+            <tbody id="receiptItemsTbody">
+              <!-- Populated via app.js -->
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colspan="3" class="text-right"><strong>Total Paid (Inclusive of 18% GST):</strong></td>
+                <td><strong id="receiptTotalAmount" class="font-mono font-bold">-</strong></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </div>
+
+      <div class="receipt-footer">
+        <button id="btnPrintInvoice" class="btn btn-secondary">
+          <svg class="w-4 h-4 mr-1" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M6 9V2h12v7M6 18H4a2 2 0 01-2-2v-5a2 2 0 012-2h16a2 2 0 012 2v5a2 2 0 01-2 2h-2"/>
+            <path d="M6 14h12v8H6z"/>
+          </svg>
+          Print Official Tax Invoice
+        </button>
+        <button id="btnCloseReceipt" class="btn btn-primary">
+          Continue Browsing
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== RAZORPAY TEST GATEWAY SIMULATOR MODAL ==================== -->
+  <div id="rzpSimulatorModal" class="modal-overlay hidden" role="dialog" aria-modal="true" aria-labelledby="rzpSimulatorTitle">
+    <div class="rzp-simulator-card">
+      <div class="rzp-sim-header">
+        <div class="rzp-sim-brand">
+          <div class="rzp-sim-logo-icon">
+            <svg viewBox="0 0 24 24" width="22" height="22" fill="none">
+              <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" stroke="#3395FF" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+          <div>
+            <h3 id="rzpSimulatorTitle" class="rzp-sim-heading">Razorpay Payment Gateway</h3>
+            <span class="rzp-sim-badge">Test Sandbox Simulator</span>
+          </div>
+        </div>
+        <button id="btnCloseRzpSimulator" class="modal-close-icon" aria-label="Cancel Payment">&times;</button>
+      </div>
+
+      <div class="rzp-sim-body">
+        <div class="rzp-sim-amount-banner">
+          <span class="sim-amount-label">Payable to FrameLab Haute Eyewear</span>
+          <div class="sim-amount-value" id="rzpSimAmount">₹0</div>
+          <div class="sim-order-meta">
+            <span>Order Ref: <strong id="rzpSimOrderId" class="font-mono">-</strong></span>
+            <span>&bull;</span>
+            <span>Gateway ID: <strong id="rzpSimGatewayId" class="font-mono">-</strong></span>
+          </div>
+        </div>
+
+        <p class="rzp-sim-explainer">
+          Select a test scenario below to simulate customer payment. The client will pass transaction tokens to <code>/api/verify-payment</code> for cryptographic server-side validation:
+        </p>
+
+        <div class="rzp-sim-actions-grid">
+          <button type="button" class="rzp-sim-action-btn btn-sim-upi" id="btnSimulateUPI">
+            <span class="sim-btn-icon">⚡</span>
+            <div class="sim-btn-text">
+              <span class="sim-btn-title">UPI Instant Approval</span>
+              <span class="sim-btn-desc">Simulates Google Pay / PhonePe / BHIM (<code class="code-sm">success@razorpay</code>)</span>
+            </div>
+            <span class="sim-btn-arrow">&rarr;</span>
+          </button>
+
+          <button type="button" class="rzp-sim-action-btn btn-sim-card" id="btnSimulateCard">
+            <span class="sim-btn-icon">💳</span>
+            <div class="sim-btn-text">
+              <span class="sim-btn-title">Test Debit / Credit Card</span>
+              <span class="sim-btn-desc">Simulates 3D-Secure OTP authentication (<code class="code-sm">4111 •••• •••• 1111</code>)</span>
+            </div>
+            <span class="sim-btn-arrow">&rarr;</span>
+          </button>
+
+          <button type="button" class="rzp-sim-action-btn btn-sim-netbanking" id="btnSimulateNetbanking">
+            <span class="sim-btn-icon">🏛️</span>
+            <div class="sim-btn-text">
+              <span class="sim-btn-title">NetBanking Instant Approval</span>
+              <span class="sim-btn-desc">Simulates HDFC, ICICI, SBI, Axis direct bank capture</span>
+            </div>
+            <span class="sim-btn-arrow">&rarr;</span>
+          </button>
+
+          <button type="button" class="rzp-sim-action-btn btn-sim-decline" id="btnSimulateFailure">
+            <span class="sim-btn-icon">⚠️</span>
+            <div class="sim-btn-text">
+              <span class="sim-btn-title">Simulate Payment Decline / Failure</span>
+              <span class="sim-btn-desc">Simulates bank decline, insufficient funds, or timeout</span>
+            </div>
+            <span class="sim-btn-arrow">&rarr;</span>
+          </button>
+        </div>
+
+        <div class="rzp-sim-footer">
+          <button type="button" id="btnDismissRzpSim" class="btn-sim-cancel">
+            Cancel & Return to Shopping Bag
+          </button>
+          <div class="rzp-sim-security-tag">
+            <span>🔒 256-Bit SSL Encrypted Razorpay Simulator</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast Notifications Container -->
+  <div id="toastNotificationContainer" class="toast-container" aria-live="polite"></div>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer class="framelab-footer">
+    <div class="container footer-grid">
+      
+      <!-- Col 1: Brand Info -->
+      <div class="footer-brand-col">
+        <a href="#" class="footer-logo">
+          <span class="logo-mark">
+            <svg viewBox="0 0 36 36" fill="none" class="logo-svg" aria-hidden="true">
+              <circle cx="12" cy="18" r="8" stroke="currentColor" stroke-width="2.5" />
+              <circle cx="24" cy="18" r="8" stroke="currentColor" stroke-width="2.5" />
+              <path d="M12 10C12 10 15 8 18 8C21 8 24 10 24 10" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" />
+            </svg>
+          </span>
+          <span class="brand-name">FrameLab</span>
+        </a>
+        <p class="footer-manifesto">
+          Haute eyewear re-engineered for facial harmony. We marry Japanese beta-titanium and Italian Mazzucchelli bio-acetate with computer-assisted biometric optimization.
+        </p>
+        <div class="footer-currency-note">
+          <span>🇮🇳 All prices in Indian National Rupees (₹ INR) &bull; Inclusive of all taxes</span>
+        </div>
+      </div>
+
+      <!-- Col 2: Navigation Links -->
+      <div class="footer-col">
+        <h4 class="footer-col-title">Explore</h4>
+        <ul class="footer-links-list">
+          <li><a href="#selectorSection">Smart Frame Selector</a></li>
+          <li><a href="#virtualStudioSection">Virtual Studio Simulator</a></li>
+          <li><a href="#catalogSection">Full Optical Catalog</a></li>
+          <li><a href="#collectionsSection">The Titanium Edit</a></li>
+          <li><a href="#collectionsSection">Italian Bio-Acetate</a></li>
+        </ul>
+      </div>
+
+      <!-- Col 3: Assistance -->
+      <div class="footer-col">
+        <h4 class="footer-col-title">Patron Concierge</h4>
+        <ul class="footer-links-list">
+          <li><a href="#faqSection">Prescription & PD Guide</a></li>
+          <li><a href="#faqSection">14-Day In-Home Trial</a></li>
+          <li><a href="#faqSection">Lens Coatings Comparison</a></li>
+          <li><a href="#aboutSection">Our Sustainability Pledge</a></li>
+          <li><a href="mailto:concierge@framelab.in">Email: concierge@framelab.in</a></li>
+          <li><span>Mon–Sat &bull; 9:00 AM – 8:00 PM IST</span></li>
+        </ul>
+      </div>
+
+      <!-- Col 4: Newsletter -->
+      <div class="footer-col">
+        <h4 class="footer-col-title">The FrameLab Journal</h4>
+        <p class="footer-newsletter-desc">
+          Subscribe for private releases of limited artisan editions, facial geometry styling essays, and optical research.
+        </p>
+        <form id="newsletterForm" class="footer-newsletter-form">
+          <input type="email" id="newsletterEmail" placeholder="Enter your email address..." required aria-label="Email address for FrameLab Journal">
+          <button type="submit" class="btn btn-primary btn-newsletter">Subscribe</button>
+        </form>
+      </div>
+
+    </div>
+
+    <div class="container footer-bottom-bar">
+      <p class="copyright">&copy; 2026 FrameLab Luxury Eyewear Technologies Pvt. Ltd. All Rights Reserved.</p>
+      <div class="legal-links">
+        <a href="#faqSection">Privacy Policy</a>
+        <span>&bull;</span>
+        <a href="#faqSection">Terms of Service</a>
+        <span>&bull;</span>
+        <a href="#faqSection">Ophthalmic Certification</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Modular Scripts -->
+  <script type="module" src="js/products.js"></script>
+  <script type="module" src="js/virtual-studio.js"></script>
+  <script type="module" src="js/selector.js"></script>
+  <script type="module" src="js/app.js"></script>
+</body>
+</html>

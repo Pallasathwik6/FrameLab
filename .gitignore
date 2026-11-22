@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Environment Variables (Keep .env.example committed)
+.env
+.env.local
+.env.*.local
+
+# Customer Order Data (Protects user PII & addresses)
+data/orders.json
+data/*.tmp*
+
+# Archives
+*.zip
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS & Editor files
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
